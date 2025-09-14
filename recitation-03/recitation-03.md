@@ -181,4 +181,4 @@ f) If `ranks` is a list of size n, Netflix says it will give you
 lg(n) processors to run your algorithm in parallel. What is the
 upper bound on the runtime of this parallel implementation? (Hint: assume a Greedy
 Scheduler). Please explain how do you have this.
-
+ 
