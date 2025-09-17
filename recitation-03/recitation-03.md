@@ -112,37 +112,37 @@ a) Describe, in your own words, what the `combine` method is doing and
 what it returns.
 
 .  
-.  
-.  
-.  
-.  
-.  
+.  The combine method merges two sorted lists of movie rankings. To represent a disagreement, the method 
+.  counts how many times an element from the right list is smaller than an element from the left list. 
+.  It returns the total number of disagreements and the fully merged sorted list.
+.  The combine method is similar to a merge sort, but with extra steps to count disagreements when elements are 
+.  out of order. 
 .  
 .  
 .  
 
 b) Write the work recurrence formula for `num_disagreements_fast`. Please explain how do you have this.
 
+.  W(n) = 2W(n/2) + O(n)
 .  
-.  
-.  
-.  
-.  
+.  the function splits the input into 2 halves (each with size n/2)
+.  there are 2 recursive calls on size n/2 -> 2W (n/2)
+.  the combine step does O(n) work, so we add + O(n)
 .  
 
 c) Solve this recurrence using any method you like. Please explain how do you have this.
 
 .  
+.  (using tree method)
+.  level 0 : work = cn
+.  level 1 : there are 2 calls of size (n/2), so total work= 2 * c(n/2) = cn
+.  level 2 : there are 4 calls of size (n/4), so total work = 4 * c(n/4) = cn 
+.  ...
+.  level log n : (base case). There is constant work per call, but with n calls of size 1. Total work = cn
+.  every level does cn amount of work, there are log n + 1 levels 
+.  so, total work is W(n) = cn * (logn + 1) = O(nlogn)
 .  
-.  
-.  
-.  
-.  
-.  
-.  
-.  
-.  
-.  
+.  total work = O(nlogn)
 .  
 
 
@@ -150,10 +150,10 @@ d) Assuming that your recursive calls to `num_disagreements_fast` are
 done in parallel, write the span recurrence for your algorithm. Please explain how do you have this.
 
 .  
-.  
-.  
-.  
-.  
+.  If the two recursive calls run in parallel, then we only have to wait for one (the slower one)
+.  so we pay for 1 recursive call --> S(n/2)
+.  the combine step however takes O(n) time 
+.  so the recurrence is S(n) = S(n/2) + O(n)
 .  
 .  
 .  
@@ -164,16 +164,16 @@ done in parallel, write the span recurrence for your algorithm. Please explain h
 
 e) Solve this recurrence using any method you like. Please explain how do you have this.
 
+.  S(n) = S(n/2) + O(n)
 .  
+.  using recursion tree method:
+.  each level adds a cost of cn, c(n/2), c(n/4),...
+.  total span: S(n) = cn + c(n/2) + c(n/4) +...+ c*1
 .  
+.  this is a geometric series so:
+.  S(n) = c * n * ( 1 + 1/2 + 1/4 + ...) = c * n * (2) = 2cn
 .  
-.  
-.  
-.  
-.  
-.  
-.  
-.  
+.  so the span is O(n)
 .  
 .  
 
@@ -181,4 +181,14 @@ f) If `ranks` is a list of size n, Netflix says it will give you
 lg(n) processors to run your algorithm in parallel. What is the
 upper bound on the runtime of this parallel implementation? (Hint: assume a Greedy
 Scheduler). Please explain how do you have this.
+
+W(n) = O(nlogn)
+S(n) = O(n)
+P = log n processors
+plugging in :
+
+T(n) <= nlogn/logn + n = n + n = 2n
+
+so the upper bound on the parallel runtime is O(n)
+(this is an improvement from the origninal O(n^2)!!)
  
